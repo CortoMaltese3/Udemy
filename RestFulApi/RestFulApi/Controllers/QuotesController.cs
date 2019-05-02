@@ -20,12 +20,43 @@ namespace RestFulApi.Controllers
             _quotesDbContext = quotesDbContext;
         }
 
-
         // GET: api/Quotes
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(string sort)
         {
-            return Ok(_quotesDbContext.Quotes);
+            IQueryable<Quote> quotes;
+            switch (sort)
+            {
+                case "desc":
+                    quotes = _quotesDbContext.Quotes.OrderByDescending(q => q.CreatedAt);
+                    break;
+                case "asc":
+                    quotes = _quotesDbContext.Quotes.OrderBy(q => q.CreatedAt);
+                    break;
+                default:
+                    quotes = _quotesDbContext.Quotes;
+                    break;
+            }
+            return Ok(quotes);
+        }
+
+        [HttpGet("[action]")]
+        //[Route("[action]")]
+        public IActionResult PagingQuote(int? pageNumber, int? pageSize)
+        {
+            var quotes = _quotesDbContext.Quotes;
+            var currentPageNumber = pageNumber ?? 1;
+            var currentPageSize = pageSize ?? 5;
+            return Ok(quotes.Skip((currentPageNumber - 1) * currentPageSize).Take(currentPageSize));
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        public IActionResult SearchQuote(string type)
+        {
+            var quotes = _quotesDbContext.Quotes.Where(q => q.Type.StartsWith(type));
+
+            return Ok(quotes);
         }
 
         // GET: api/Quotes/5
@@ -42,13 +73,6 @@ namespace RestFulApi.Controllers
             }
         }
 
-        // GET: api/Quotes/Test/12
-        [HttpGet("[action]/{id}")]
-        public int Test(int id)
-        {
-            return id;
-        }
-
         // POST: api/Quotes
         [HttpPost]
         public IActionResult Post([FromBody] Quote quote)
@@ -57,7 +81,6 @@ namespace RestFulApi.Controllers
             _quotesDbContext.SaveChanges();
             return StatusCode(StatusCodes.Status201Created);
         }
-
 
         // PUT: api/Quotes/5
         [HttpPut("{id}")]
@@ -78,7 +101,6 @@ namespace RestFulApi.Controllers
 
                 return Ok("Record Updated successfully...");
             }
-
         }
 
         // DELETE: api/ApiWithActions/5
