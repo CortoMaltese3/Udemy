@@ -30,27 +30,38 @@ namespace RestFulApi.Controllers
 
         // GET: api/Quotes/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public Quote Get(int id)
         {
-            return "value";
+            var quote = _quotesDbContext.Quotes.Find(id);
+            return quote;
         }
 
         // POST: api/Quotes
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Quote quote)
         {
+            _quotesDbContext.Quotes.Add(quote);
+            _quotesDbContext.SaveChanges();
         }
 
         // PUT: api/Quotes/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] Quote quote)
         {
+            var entity = _quotesDbContext.Quotes.Find(id);
+            entity.Title = quote.Title;
+            entity.Author = quote.Author;
+            entity.Description = quote.Description;
+            _quotesDbContext.SaveChanges();
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            var quote = _quotesDbContext.Quotes.Find(id);
+            _quotesDbContext.Quotes.Remove(quote);
+            _quotesDbContext.SaveChanges();
         }
     }
 }
