@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestFulApi.Data;
 using RestFulApi.Models;
 
 namespace RestFulApi.Controllers
@@ -12,35 +13,44 @@ namespace RestFulApi.Controllers
     [ApiController]
     public class QuotesController : ControllerBase
     {
-        static List<Quote> _quotes = new List<Quote>()
-        {
-            new Quote(){ Id = 0, Title = "The Parrot's Theorem", Author = "Denis Guedj", Description= "The Parrot's Theorem is a French novel written by Denis Guedj and published in 1998."  },
-            new Quote(){ Id = 1, Title = "The Silmarillion", Author = "Christopher Tolkien", Description= "The Silmarillion is a collection of mythopoeic works by English writer J. R. R. Tolkien"  }
-        };
+        private QuotesDbContext _quotesDbContext;
 
+        public QuotesController(QuotesDbContext quotesDbContext)
+        {
+            _quotesDbContext = quotesDbContext;
+        }
+
+
+        // GET: api/Quotes
         [HttpGet]
         public IEnumerable<Quote> Get()
         {
-            return _quotes;
+            return _quotesDbContext.Quotes;
         }
-        
+
+        // GET: api/Quotes/5
+        [HttpGet("{id}", Name = "Get")]
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+        // POST: api/Quotes
         [HttpPost]
-        public void Post([FromBody]Quote quote)
+        public void Post([FromBody] string value)
         {
-            _quotes.Add(quote);
         }
 
+        // PUT: api/Quotes/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Quote quote)
+        public void Put(int id, [FromBody] string value)
         {
-            _quotes[id] = quote;
         }
 
+        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _quotes.RemoveAt(id);
         }
-
     }
 }
