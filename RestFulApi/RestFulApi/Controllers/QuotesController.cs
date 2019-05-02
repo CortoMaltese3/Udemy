@@ -40,7 +40,13 @@ namespace RestFulApi.Controllers
             {
                 return Ok(quote);
             }
-            
+        }
+
+        // GET: api/Quotes/Test/12
+        [HttpGet("[action]/{id}")]
+        public int Test(int id)
+        {
+            return id;
         }
 
         // POST: api/Quotes
@@ -66,6 +72,8 @@ namespace RestFulApi.Controllers
                 entity.Title = quote.Title;
                 entity.Author = quote.Author;
                 entity.Description = quote.Description;
+                entity.Type = quote.Type;
+                entity.CreatedAt = quote.CreatedAt;
                 _quotesDbContext.SaveChanges();
 
                 return Ok("Record Updated successfully...");

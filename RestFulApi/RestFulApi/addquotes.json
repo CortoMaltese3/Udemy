@@ -1,0 +1,26 @@
+{
+	"Quotes": 
+	[
+		{
+			"Title": "Introduction to Electrodynamics",
+			"Author": "David J. Griffiths",
+			"Description": "This well-known undergraduate electrodynamics textbook is now available in a more affordable printing from Cambridge University Press",
+			"Type": "Physics",
+			"CreatedAt" : "01-01-1997"
+		},
+		{
+			"Title": "The Silmarillion",
+			"Author": "Christopher Tolkien",
+			"Description": "The Silmarillion is a collection of mythopoeic works by English writer J. R. R. Tolkien",
+			"Type": "Fantasy",
+			"CreatedAt" : "09-19-1977"
+		},
+	    {
+			"Title": "The Parrots Theorem",
+			"Author": "Christopher Tolkien",
+			"Description": "The Parrots Theorem is a French novel written by Denis Guedj and published in 1998",
+			"Type": "Novel",
+			"CreatedAt" : "02-02-1998"
+		}
+	]
+}
