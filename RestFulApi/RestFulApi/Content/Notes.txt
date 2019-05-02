@@ -1,0 +1,10 @@
+﻿NUGET PACKAGES
+--------------
+1)  Adding Caching Packages: Microsoft.AspNetCore.ResponseCaching
+	Startup -> Configure -> app.UseResponseCaching();
+	Startup -> ConfigureServices -> services.AddResponseCaching();
+	Controller -> public IActionResult Get(string sort) -> [ResponseCache(Duration = 60)]
+        
+	
+2)	Adding Xml responses packages: Microsoft.AspNetCore.Mvc.Formatters.Xml
+	Startup -> ConfigureServices -> services.AddMvc().AddXmlSerializerFormatters();	

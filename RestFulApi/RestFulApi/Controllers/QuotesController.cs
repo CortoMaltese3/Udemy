@@ -22,6 +22,7 @@ namespace RestFulApi.Controllers
 
         // GET: api/Quotes
         [HttpGet]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
         public IActionResult Get(string sort)
         {
             IQueryable<Quote> quotes;
@@ -41,7 +42,6 @@ namespace RestFulApi.Controllers
         }
 
         [HttpGet("[action]")]
-        //[Route("[action]")]
         public IActionResult PagingQuote(int? pageNumber, int? pageSize)
         {
             var quotes = _quotesDbContext.Quotes;
