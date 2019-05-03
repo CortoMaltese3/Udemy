@@ -29,7 +29,7 @@ namespace RestFulApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddDbContext<QuotesDbContext>(option => option.UseSqlServer(@"Data Source = (localdb)\MSSQLLocalDB;Initial Catalog=QuotesDb; "));
+            services.AddDbContext<QuotesDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("QuotesDbContext")));
             services.AddMvc().AddXmlSerializerFormatters();
             services.AddResponseCaching();
 
@@ -46,7 +46,7 @@ namespace RestFulApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, QuotesDbContext quotesDbContext)
         {
             if (env.IsDevelopment())
             {
@@ -62,6 +62,8 @@ namespace RestFulApi
             app.UseAuthentication();
 
             app.UseHttpsRedirection();
+            // Use this if you believe that you'll not change the database schema after you published your api
+            quotesDbContext.Database.EnsureCreated(); 
             //quotesDbContext.Database.Migrate();
             app.UseMvc();
             app.UseResponseCaching();
