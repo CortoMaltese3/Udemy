@@ -1,8 +1,9 @@
 ﻿MIGRATIONS
 --------------
 Package Manager Console:
-1)	Add-Migration Name
-2)	Update-Database
+1)	Install-Package EntityFramework -Version 6.2.0
+2)	Add-Migration Name
+3)	Update-Database
 
 
 
@@ -18,6 +19,8 @@ NUGET PACKAGES
 	Startup -> ConfigureServices -> services.AddMvc().AddXmlSerializerFormatters();	
 
 3)	Adding JwtBearer: Microsoft.AspNetCore.Authentication.JwtBearer
+
+4)	Microsoft.EntityFrameworkCore.SqlServer
 
 
 

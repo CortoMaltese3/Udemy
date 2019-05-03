@@ -1,0 +1,37 @@
+﻿STEPS
+--------------------
+1)  Create Models (Menu-Submenu-Reservation)
+	Menu and Reservation has a 1-M relationship so Menu needs a Navigation Property (ICollection<SubMenu> SubMenus)
+
+2)	Include NuGet Package Microsoft.EntityFrameworkCore.SqlServer	
+
+3)	Add Data Annotations
+
+4)	Create Data -> DbContext
+
+5)	Add Connection String
+	Startup.cs -> ConfigureServices -> services.AddDbContext<HushDbContext>(option => option.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=HushDb;"));
+
+6)	Add Controllers
+	Instantiate an object of HushDbContext class
+	MenuController: We need a Get method->IActionResult GetMenus()
+
+7)	Build Project
+
+8)	Go to DbContext Class and make a constructor
+	public HushDbContext(DbContextOptions<HushDbContext>options) : base(options)
+	{
+	}
+
+9)	Go to MenuControllers and make a constructor in which we pass the dbcontext object
+    public MenusController(HushDbContext hushDbContext)
+    {
+        hushDbContext = _hushDbContext;
+    }
+
+10)	Add Migrations
+	Install-Package Microsoft.EntityFrameworkCore -Version 2.0.1
+	Add-Migration InitialMigration
+	Update-Database
+
+11) Add .Include("Submenus") to GetMenus. This will trigger the Eager Loading (loads related entities without using a seperate query )
