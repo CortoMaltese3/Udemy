@@ -1,4 +1,12 @@
-﻿NUGET PACKAGES
+﻿MIGRATIONS
+--------------
+Package Manager Console:
+1)	Add-Migration Name
+2)	Update-Database
+
+
+
+NUGET PACKAGES
 --------------
 1)  Adding Caching Packages: Microsoft.AspNetCore.ResponseCaching
 	Startup -> Configure -> app.UseResponseCaching();
@@ -8,3 +16,40 @@
 	
 2)	Adding Xml responses packages: Microsoft.AspNetCore.Mvc.Formatters.Xml
 	Startup -> ConfigureServices -> services.AddMvc().AddXmlSerializerFormatters();	
+
+3)	Adding JwtBearer: Microsoft.AspNetCore.Authentication.JwtBearer
+
+
+
+
+POSTMAN
+--------------
+1)	Make the post HTTP Request Resource Owner Password to receive a token
+	Parameters needed are:
+	Body:
+	i)   client id: manage.auth0.com -> Applications -> QuotesApi -> Client ID
+	ii)  audience: (optional) -> https://localhost:44311/
+	iii) username - password: registered user
+	iv)  client_secret: manage.auth0.com -> Applications -> QuotesApi -> Client Secret
+	
+	Headers:
+	i)	Authorize: Bearer+Token
+
+
+
+2)	Make the post HTTP Request Add User Authorized to register a new authorized user
+	Parameters needed are:
+	Body:
+	i)   client id: manage.auth0.com -> Applications -> QuotesApi -> Client ID
+	ii)	 connection: manage.auth0.com -> Connections -> Database Name: AuthUserDb
+
+	Headers:
+	i)	Authorize: Bearer+Token
+
+
+
+	TOKENS
+	--------------
+	eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IlF6TXpNRUpDUmtKQ04wVXlOMEU0UVVJd09VUXhPVGhETnpjNE9UUXlRME5DTkRreVFVSkRNQSJ9.eyJpc3MiOiJodHRwczovL2Rldi16MzlmdGtybS5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWNjYmVlNDg0NWI4MmMxMTAxMjk0MGNjIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIiwiaWF0IjoxNTU2ODY4NzM3LCJleHAiOjE1NTY5NTUxMzcsImF6cCI6IjNESDEwRjBNeUJYTEU0REtMaFBmVmtPMmFScVZ6Sm9FIiwiZ3R5IjoicGFzc3dvcmQifQ.F6r82tMLDWtsyEPSSklI_f_cSbWY4sBTBj65Rauenb81Eye6jyrvOrOxh2sUnhQkISpgXHdX_QIMJrSRck8XD4DjWVGKOJOp1tpu0rZOTmB8D6nx_gQz4O6l4pihc0WzyHF51Fvzm_DSjkkY8kNHA12InSaSKE4447J-qgbZmrjUrPclSdf6y5S53X7zQQx4czuWhZCMjLlXAugUpHnQ2koHsFd5QWZqTtc8BQwX7n1hqfLcH1pSTmEtzAZ_KJWZVUIZ3pja_KCpHXgROPTPslHlbgVeB33R3kZEWHkCrlBwCZrPO7POb_xTJC_vjF0hGoH1Ui7VWfkNSaSLSQTjxA
+
+	eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IlF6TXpNRUpDUmtKQ04wVXlOMEU0UVVJd09VUXhPVGhETnpjNE9UUXlRME5DTkRreVFVSkRNQSJ9.eyJpc3MiOiJodHRwczovL2Rldi16MzlmdGtybS5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWNjYmY5MGJlZDMxODMxMGY3ODllOWZkIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTEvIiwiaWF0IjoxNTU2ODcxNTYzLCJleHAiOjE1NTY5NTc5NjMsImF6cCI6IjNESDEwRjBNeUJYTEU0REtMaFBmVmtPMmFScVZ6Sm9FIiwiZ3R5IjoicGFzc3dvcmQifQ.q2Qa_6MZkRFuIsu4MFCd1jZRPyc0jJ__mW1Y31jPIRQ6rYCa1SXEcGwBLXDyntJmRZ19VJ0MzEOsO3P4PplvzcnLdCzJAiHEoqFVhn6DsN49emRxsEgW8NfwypTA6ULkOzctCxCnAQyJ0VyrGv-DG3SeKKh8niQIJcVwNIkrkylDhyQeAgxVinamz9qYlwOKCUxNeHnmHCFmAR3-NFaWi1dn7apPhh0W6-NB9THPIhvAPZGwjbRDi2DOzSkviFopyEkGaQ15y4nn-1OZArWe3QgVYdNmzXT90mwn5ln2swzqTDLYgJRWhlnElL_riCTmn2APhCT7RpuvG4S9taM2xQ

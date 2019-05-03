@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -27,5 +28,8 @@ namespace RestFulApi.Models
 
         [Required]
         public DateTime CreatedAt { get; set; }
+
+        [JsonIgnore]
+        public string UserId { get; set; }
     }
 }

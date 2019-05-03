@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestFulApi.Data;
@@ -11,6 +13,7 @@ namespace RestFulApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class QuotesController : ControllerBase
     {
         private QuotesDbContext _quotesDbContext;
@@ -22,7 +25,7 @@ namespace RestFulApi.Controllers
 
         // GET: api/Quotes
         [HttpGet]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]        
         public IActionResult Get(string sort)
         {
             IQueryable<Quote> quotes;
@@ -59,6 +62,17 @@ namespace RestFulApi.Controllers
             return Ok(quotes);
         }
 
+        [HttpGet("[action]")]
+        public IActionResult MyQuote()
+        {
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            var quotes = _quotesDbContext.Quotes.Where(q => q.UserId==userId);
+            return Ok(quotes);
+        }
+
+
+
         // GET: api/Quotes/5
         [HttpGet("{id}", Name = "Get")]
         public IActionResult Get(int id)
@@ -77,6 +91,8 @@ namespace RestFulApi.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Quote quote)
         {
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            quote.UserId = userId;
             _quotesDbContext.Quotes.Add(quote);
             _quotesDbContext.SaveChanges();
             return StatusCode(StatusCodes.Status201Created);
@@ -86,10 +102,20 @@ namespace RestFulApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Quote quote)
         {
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
             var entity = _quotesDbContext.Quotes.Find(id);
 
             if (entity == null)
+            {
                 return NotFound("No record found against this id");
+            }
+            
+            if (userId != entity.UserId)
+            {
+                return BadRequest("Sorry you can't update this record");
+            }       
+            
             else
             {
                 entity.Title = quote.Title;
@@ -109,8 +135,18 @@ namespace RestFulApi.Controllers
         {            
             var quote = _quotesDbContext.Quotes.Find(id);
 
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
             if (quote == null)
+            {
                 return NotFound("No record was found against this id");
+            }
+
+            if (userId != quote.UserId)
+            {
+                return BadRequest("Sorry you can't delete this record");
+            }
+                
             else
             {
                 _quotesDbContext.Quotes.Remove(quote);
