@@ -21,6 +21,14 @@
 			"Description": "The Parrots Theorem is a French novel written by Denis Guedj and published in 1998",
 			"Type": "Novel",
 			"CreatedAt" : "02-02-1998"
-		}
+        },
+        {
+            "Title": "An Introduction to Quantum Physics",
+            "Author": "Stefanos Trachanas",
+            "Description": "This modern textbook offers an introduction to Quantum Mechanics as a theory that underlies the world around us, from atoms and molecules to materials, lasers, and other applications",
+            "Type": "Physics",
+            "CreatedAt" : "01-08-2018"
+        }
+        
 	]
 }

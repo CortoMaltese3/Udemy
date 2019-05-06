@@ -6,6 +6,7 @@ using HushApi.Data;
 using HushApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HushApi.Controllers
 {
@@ -27,6 +28,15 @@ namespace HushApi.Controllers
             _hushDbContext.SaveChanges();
 
             return StatusCode(StatusCodes.Status201Created);
+        }
+
+
+        [HttpGet]
+        public IActionResult GetReservations()
+        {
+            var reservations = _hushDbContext.Reservations;
+
+            return Ok(reservations);
         }
     }
 }
